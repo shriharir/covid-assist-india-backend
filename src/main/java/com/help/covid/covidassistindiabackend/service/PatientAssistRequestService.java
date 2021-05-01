@@ -1,6 +1,7 @@
 package com.help.covid.covidassistindiabackend.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.help.covid.covidassistindiabackend.entity.PatientAssistRequestEntity;
@@ -12,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static org.springframework.util.ObjectUtils.isEmpty;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -21,7 +24,19 @@ public class PatientAssistRequestService {
     private PatientAssistRequestRepository repository;
 
     public PatientAssistRequestEntity create(PatientAssistRequest request) {
-        return repository.save(request.toEntity());
+        UUID requestId = request.getRequestId();
+        if (isEmpty(requestId)) {
+            return repository.save(request.toEntity());
+        } else {
+            Optional<PatientAssistRequestEntity> optional = repository.findByRequestId(requestId);
+            if (optional.isPresent()) {
+                PatientAssistRequestEntity updatedEntity = request.toEntity();
+                updatedEntity.setRequestId(requestId);
+                return repository.save(updatedEntity);
+            } else {
+                return repository.save(request.toEntity());
+            }
+        }
     }
 
     public PatientAssistRequestEntity findByRequestId(UUID requestId) {
