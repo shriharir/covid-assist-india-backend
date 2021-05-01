@@ -1,5 +1,6 @@
 package com.help.covid.covidassistindiabackend.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -15,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,6 +44,36 @@ public class PatientAssistRequestController {
             return ResponseEntity
                     .status(OK)
                     .body(GenericResponse.builder().id(requestId).build());
+        } finally {
+            MDC.clear();
+        }
+    }
+
+    @GetMapping("/request/{requestId}")
+    @SneakyThrows
+    public ResponseEntity getPatientAssistRequest(@PathVariable UUID requestId) {
+        try {
+            log.info("Received Get request for requestId {}::", requestId);
+            PatientAssistRequestEntity entity = service.findByRequestId(requestId);
+            log.info("Retrieved patient assist request with value {} ::", objectMapper.writeValueAsString(entity));
+            return ResponseEntity
+                    .status(OK)
+                    .body(entity);
+        } finally {
+            MDC.clear();
+        }
+    }
+
+    @GetMapping("/request/findAll")
+    @SneakyThrows
+    public ResponseEntity getAllPatientAssistRequest() {
+        try {
+            log.info("Received request to get all requests");
+            List<PatientAssistRequestEntity> entity = service.findAllRequests();
+            log.info("Retrieved patient assist request with value {} ::", objectMapper.writeValueAsString(entity));
+            return ResponseEntity
+                    .status(OK)
+                    .body(entity);
         } finally {
             MDC.clear();
         }

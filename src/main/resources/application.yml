@@ -29,7 +29,7 @@ spring:
     locations:classpath: db/migration
     table: flyway_schema_history
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: none
     properties:
@@ -38,8 +38,8 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
-        show-sql: true
-        format_sql: true
+        show-sql: false
+        format_sql: false
   jackson:
     default-property-inclusion: NON_NULL
 
