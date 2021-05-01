@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: covidassistindia-backend
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: covidassistindia-backend
+    spec:
+      containers:
+        - name: covidassistindia-backend
+          image: registry.gitlab.com/covidassistindia/covid-assist-india-backend
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+      imagePullSecrets:
+        - name: registry.gitlab.com
