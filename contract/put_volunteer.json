@@ -1,0 +1,19 @@
+{
+  "volunteerId": "89cbe216-1493-4d66-9c17-b133624afc33",
+  "firstName": "string",
+  "lastName": "string",
+  "email": "string",
+  "primaryMobile": "string",
+  "alternateMobile": "string",
+  "age": "string",
+  "address": {
+    "addressLine1": "string",
+    "addressLine2": "string",
+    "landMark": "string",
+    "city": "string",
+    "state": "string",
+    "district": "strict",
+    "pin": "string"
+  },
+  "idNumber": "string"
+}

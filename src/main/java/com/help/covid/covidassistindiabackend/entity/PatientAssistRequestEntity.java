@@ -53,7 +53,7 @@ public class PatientAssistRequestEntity implements GenericEntity<PatientAssistRe
     private String srfId;
     private String buNumber;
     public String covidTestResult;
-    public Boolean isVaccinationTaken;
+    public String isVaccinationTaken;
 
     @Type(type = JSON_TYPE)
     public PatientDetails patientDetails;

@@ -23,7 +23,7 @@ public class PatientAssistRequest implements GenericDomain<PatientAssistRequestE
     private String srfId;
     private String buNumber;
     public String covidTestResult;
-    public Boolean isVaccinationTaken;
+    public String isVaccinationTaken;
     public PatientDetails patientDetails;
     public CareTakerDetails careTakerDetails;
     public Address address;

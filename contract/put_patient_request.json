@@ -1,0 +1,56 @@
+{
+  "requestId": "89cbe216-1493-4d66-9c17-b133624afc33",
+  "srfId": "2952511668200",
+  "buNumber": "697797",
+  "covidTestResult": "positive",
+  "isVaccinationTaken": true,
+  "patientDetails": {
+    "name": "string",
+    "gender": "string",
+    "age": "integer",
+    "symptomms": [
+      "string",
+      "string"
+    ],
+    "coMorbidities": [
+      "string",
+      "string"
+    ]
+  },
+  "careTakerDetails": {
+    "name": "string",
+    "gender": "string",
+    "primaryMobile": "integer",
+    "secondaryMobile": "integer",
+    "relationWithPatient": "string"
+  },
+  "address": {
+    "addressLine1": "string",
+    "addressLine2": "string",
+    "landMark": "string",
+    "city": "string",
+    "state": "string",
+    "district": "strict",
+    "pin": "string"
+  },
+  "hospitalDetails": {
+    "isAdmittedToHospital": false,
+    "hospitalName": "string",
+    "hospitalAddress": "string"
+  },
+  "serviceRequested": "string",
+  "description": [
+    "string",
+    "string"
+  ],
+  "requestStatus": [
+    {
+      "status": "string",
+      "volunteerId": "integer",
+      "updatedBy": "string",
+      "comments": "string"
+    }
+  ],
+  "createdAt": "2019-10-25T17:22:50.249Z",
+  "lastModifiedAt": "2019-10-25T17:22:50.249Z"
+}
