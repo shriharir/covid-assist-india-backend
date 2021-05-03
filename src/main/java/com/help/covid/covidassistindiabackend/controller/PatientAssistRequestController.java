@@ -86,6 +86,6 @@ public class PatientAssistRequestController {
         UUID requestId = UUID.randomUUID();
         return ResponseEntity
                 .status(OK)
-                .body(GenericResponse.builder().id(requestId).build());
+                .body("Hello world!!!");
     }
 }

@@ -1,0 +1,5 @@
+fileignoreconfig:
+- filename: src/main/resources/schema.sql
+  checksum: 18cd1b989e0063edfdcd220ce981bf8d3d50ee3fd20a09433eb9f38224e8a343
+- filename: src/main/resources/schema.sql
+  checksum: 248c75e26a546d4c32d22d9342a2df27fabd7b7eb5b5ebbbcd04de6f9f3aa3b7

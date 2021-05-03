@@ -1,8 +1,13 @@
 package com.help.covid.covidassistindiabackend.entity;
 
+import java.time.ZonedDateTime;
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import com.help.covid.covidassistindiabackend.generic.GenericEntity;
@@ -15,12 +20,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
 import static com.help.covid.covidassistindiabackend.generic.JsonType.JSON_TYPE;
+import static java.util.UUID.randomUUID;
 
 @Getter
 @Setter
@@ -37,7 +44,7 @@ public class VolunteerEntity implements GenericEntity<Volunteer> {
 
     @Id
     @Column(name = "id")
-    public String volunteerId;
+    public UUID volunteerId;
 
     public String firstName;
     public String lastName;
@@ -49,10 +56,28 @@ public class VolunteerEntity implements GenericEntity<Volunteer> {
     @Type(type = JSON_TYPE)
     public Address address;
 
-    public String idNumber;
+    public String idProofNumber;
+    public ZonedDateTime createdAt;
+    public ZonedDateTime lastModifiedAt;
 
     @Override
     public Volunteer toDomain() {
         return VolunteerMapper.INSTANCE.toDomain(this);
+    }
+
+    @SneakyThrows
+    @PrePersist
+    public void updateRequiredFields() {
+        log.info("In Pre Persist Method for request");
+        if (this.volunteerId == null) {
+            this.volunteerId = randomUUID();
+        }
+        createdAt = ZonedDateTime.now();
+    }
+
+    @PreUpdate
+    public void onPreUpdate() {
+        log.info("In Pre Update Method");
+        lastModifiedAt = ZonedDateTime.now();
     }
 }

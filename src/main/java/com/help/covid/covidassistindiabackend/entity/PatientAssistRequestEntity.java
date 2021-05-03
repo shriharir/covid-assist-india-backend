@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 import com.help.covid.covidassistindiabackend.generic.GenericEntity;
@@ -89,6 +90,13 @@ public class PatientAssistRequestEntity implements GenericEntity<PatientAssistRe
         if (this.requestId == null) {
             this.requestId = randomUUID();
         }
+        createdAt = ZonedDateTime.now();
+    }
+
+    @PreUpdate
+    public void onPreUpdate() {
+        log.info("In Pre Update Method");
+        lastModifiedAt = ZonedDateTime.now();
     }
 
 }
