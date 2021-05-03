@@ -21,7 +21,7 @@ create TABLE IF NOT EXISTS patient_assist_requests
 
 create TABLE IF NOT EXISTS volunteer_details
 (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v1(),
+    id varchar(255) PRIMARY KEY,
     first_name varchar(255),
     last_name varchar(255),
     email varchar(255),

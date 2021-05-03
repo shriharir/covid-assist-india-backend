@@ -23,7 +23,7 @@ public class VolunteerService {
     private VolunteerRepository repository;
 
     public VolunteerEntity upsert(Volunteer volunteer) {
-        UUID volunteerId = volunteer.getVolunteerId();
+        String volunteerId = volunteer.getVolunteerId();
         if (isEmpty(volunteerId)) {
             return repository.save(volunteer.toEntity());
         } else {
@@ -41,7 +41,7 @@ public class VolunteerService {
         }
     }
 
-    public VolunteerEntity findByVolunteerId(UUID volunteerId) {
+    public VolunteerEntity findByVolunteerId(String volunteerId) {
         return repository.findByVolunteerId(volunteerId)
                 .orElseThrow(ResourceNotFoundException::requestNotFund);
     }

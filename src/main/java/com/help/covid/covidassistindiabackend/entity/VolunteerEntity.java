@@ -1,7 +1,6 @@
 package com.help.covid.covidassistindiabackend.entity;
 
 import java.time.ZonedDateTime;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,7 +26,6 @@ import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 
 import static com.help.covid.covidassistindiabackend.generic.JsonType.JSON_TYPE;
-import static java.util.UUID.randomUUID;
 
 @Getter
 @Setter
@@ -44,7 +42,7 @@ public class VolunteerEntity implements GenericEntity<Volunteer> {
 
     @Id
     @Column(name = "id")
-    public UUID volunteerId;
+    public String volunteerId;
 
     public String firstName;
     public String lastName;
@@ -69,9 +67,6 @@ public class VolunteerEntity implements GenericEntity<Volunteer> {
     @PrePersist
     public void updateRequiredFields() {
         log.info("In Pre Persist Method for request");
-        if (this.volunteerId == null) {
-            this.volunteerId = randomUUID();
-        }
         createdAt = ZonedDateTime.now();
     }
 

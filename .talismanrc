@@ -9,4 +9,5 @@ fileignoreconfig:
   checksum: 9cd4330cea7de8942ac0044e22670af34a24fa91c7b33f1a309a448af48854b3
 - filename: src/main/resources/schema.sql
   checksum: ca397d8a57366dcf97b9fe030949b2d846c43b06421029f77006dc6597d141ea
-
+- filename: src/main/resources/schema.sql
+  checksum: 11ae78058aa9dc04262a83268faec226d299baee1e2594fe257b6c4b16b7a9d9

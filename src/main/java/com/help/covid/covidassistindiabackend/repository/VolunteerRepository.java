@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface VolunteerRepository extends JpaRepository<VolunteerEntity, UUID> {
-    Optional<VolunteerEntity> findByVolunteerId(UUID volunteerId);
+    Optional<VolunteerEntity> findByVolunteerId(String volunteerId);
 }
 

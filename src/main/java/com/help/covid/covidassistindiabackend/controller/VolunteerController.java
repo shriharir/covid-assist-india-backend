@@ -1,7 +1,5 @@
 package com.help.covid.covidassistindiabackend.controller;
 
-import java.util.UUID;
-
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +12,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,6 +25,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping("/volunteer")
 @RequiredArgsConstructor
+@CrossOrigin
 @Slf4j
 public class VolunteerController {
 
@@ -38,7 +38,7 @@ public class VolunteerController {
         try {
             log.info("Received Volunteer upsert request with body {}::", objectMapper.writeValueAsString(volunteer));
             VolunteerEntity entity = service.upsert(volunteer);
-            UUID volunteerId = entity.getVolunteerId();
+            String volunteerId = entity.getVolunteerId();
             log.info("Created/Updated volunteer request with id {} ::", volunteerId);
             return ResponseEntity
                     .status(OK)
@@ -50,7 +50,7 @@ public class VolunteerController {
 
     @GetMapping("/find/{volunteerId}")
     @SneakyThrows
-    public ResponseEntity getVolunteer(@PathVariable UUID volunteerId) {
+    public ResponseEntity getVolunteer(@PathVariable String volunteerId) {
         try {
             log.info("Received Get volunteer details request for volunteerId {}::", volunteerId);
             VolunteerEntity entity = service.findByVolunteerId(volunteerId);

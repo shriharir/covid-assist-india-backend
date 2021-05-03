@@ -1,6 +1,6 @@
 package com.help.covid.covidassistindiabackend.model;
 
-import java.util.UUID;
+import javax.validation.constraints.NotEmpty;
 
 import com.help.covid.covidassistindiabackend.entity.VolunteerEntity;
 import com.help.covid.covidassistindiabackend.generic.GenericDomain;
@@ -17,7 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 @NoArgsConstructor
 @Slf4j
 public class Volunteer implements GenericDomain<VolunteerEntity> {
-    public UUID volunteerId;
+    @NotEmpty
+    public String volunteerId;
     public String firstName;
     public String lastName;
     public String email;
