@@ -15,6 +15,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -28,6 +29,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequestMapping("/patient")
 @RequiredArgsConstructor
+@CrossOrigin
 @Slf4j
 @SuppressWarnings({"raw", "rawtypes", "unchecked"})
 public class PatientAssistRequestController {
