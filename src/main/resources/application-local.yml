@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: shrihari.r
-    password:
+    url: jdbc:postgresql://localhost:5432/covidassistindia
+    username: postgresql
+    password: postgresql
