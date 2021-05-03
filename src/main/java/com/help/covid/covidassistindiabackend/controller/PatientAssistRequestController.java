@@ -6,14 +6,17 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.help.covid.covidassistindiabackend.assembler.SearchTermsAssembler;
 import com.help.covid.covidassistindiabackend.entity.PatientAssistRequestEntity;
 import com.help.covid.covidassistindiabackend.generic.GenericResponse;
 import com.help.covid.covidassistindiabackend.model.PatientAssistRequest;
+import com.help.covid.covidassistindiabackend.model.SearchTerms;
 import com.help.covid.covidassistindiabackend.service.PatientAssistRequestService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.help.covid.covidassistindiabackend.util.ApplicationConstants.MAX_PAGE_LIMIT;
+import static com.help.covid.covidassistindiabackend.util.ApplicationConstants.MIN_PAGE_NUMBER;
 import static org.springframework.http.HttpStatus.OK;
 
 @RestController
@@ -36,6 +41,7 @@ public class PatientAssistRequestController {
 
     private final ObjectMapper objectMapper;
     private final PatientAssistRequestService service;
+    private final SearchTermsAssembler searchTermsAssembler;
 
     @PutMapping("/request")
     @SneakyThrows
@@ -70,10 +76,18 @@ public class PatientAssistRequestController {
 
     @GetMapping("/request/findAll")
     @SneakyThrows
-    public ResponseEntity getAllPatientAssistRequest() {
+    public ResponseEntity getAllPatientAssistRequest(
+            @RequestParam(value = "page", defaultValue = MIN_PAGE_NUMBER) Integer page,
+            @RequestParam(value = "limit", defaultValue = MAX_PAGE_LIMIT) Integer limit,
+            @RequestParam(required = false) String fromDate,
+            @RequestParam(required = false) String toDate,
+            @RequestParam(required = false, defaultValue = "") List<String> status,
+            @RequestParam(required = false, defaultValue = "") List<String> serviceTypes
+    ) {
         try {
             log.info("Received request to get all requests");
-            List<PatientAssistRequestEntity> entity = service.findAllRequests();
+            SearchTerms searchTerms = searchTermsAssembler.assemble(page, limit, fromDate, toDate, status, serviceTypes);
+            Page<PatientAssistRequestEntity> entity = service.findAllRequests(searchTerms);
             log.info("Retrieved patient assist request with value {} ::", objectMapper.writeValueAsString(entity));
             return ResponseEntity
                     .status(OK)

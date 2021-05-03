@@ -7,4 +7,6 @@ fileignoreconfig:
   checksum: 64cdfdab45899d0e918382ef37c155bd0e5e90e7b3ae8c6bb2dbac8da8e00684
 - filename: src/main/resources/application-prod.yml
   checksum: 9cd4330cea7de8942ac0044e22670af34a24fa91c7b33f1a309a448af48854b3
+- filename: src/main/resources/schema.sql
+  checksum: ca397d8a57366dcf97b9fe030949b2d846c43b06421029f77006dc6597d141ea
 
