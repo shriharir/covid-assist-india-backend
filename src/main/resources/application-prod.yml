@@ -1,5 +1,6 @@
+server.port: 5000
 spring:
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:5432/${DB_NAME}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    url: jdbc:postgresql://covidassistdb.clovqyem58jw.us-east-1.rds.amazonaws.com:5432/covidassistdb
+    username: postgres
+    password: 12postgres#$
