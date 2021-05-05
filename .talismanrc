@@ -13,3 +13,5 @@ fileignoreconfig:
   checksum: 11ae78058aa9dc04262a83268faec226d299baee1e2594fe257b6c4b16b7a9d9
 - filename: src/main/resources/application-prod.yml
   checksum: dd8a6cc168e3dc90f6e85e4772704c6e7b4204492edd34ec16ae3ecd49af539c
+- filename: src/main/resources/application-prod.yml
+  checksum: f4495fee4c76e36ec7f5706473d53737791f9bad639d96b1ee8c93cb67c34586
