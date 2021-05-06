@@ -88,7 +88,6 @@ public class PatientAssistRequestEntity implements GenericEntity<PatientAssistRe
     @Column(columnDefinition = "jsonb")
     public List<RequestStatus> requestStatus;
 
-    @JsonIgnore
     public String currentStatus;
 
     public String volunteerId;
