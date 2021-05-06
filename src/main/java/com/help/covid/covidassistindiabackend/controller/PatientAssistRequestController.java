@@ -82,16 +82,49 @@ public class PatientAssistRequestController {
             @RequestParam(required = false) String fromDate,
             @RequestParam(required = false) String toDate,
             @RequestParam(required = false, defaultValue = "") List<String> status,
-            @RequestParam(required = false, defaultValue = "") List<String> serviceTypes
+            @RequestParam(required = false, defaultValue = "") List<String> serviceTypes,
+            @RequestParam(required = false) String volunteerId
     ) {
         try {
             log.info("Received request to get all requests");
-            SearchTerms searchTerms = searchTermsAssembler.assemble(page, limit, fromDate, toDate, status, serviceTypes);
+            SearchTerms searchTerms = searchTermsAssembler.assemble(page, limit, fromDate, toDate, status, serviceTypes, volunteerId);
             Page<PatientAssistRequestEntity> entity = service.findAllRequests(searchTerms);
             log.info("Retrieved patient assist request with value {} ::", objectMapper.writeValueAsString(entity));
             return ResponseEntity
                     .status(OK)
                     .body(entity);
+        } finally {
+            MDC.clear();
+        }
+    }
+
+    @PutMapping("/assign/{requestId}")
+    @SneakyThrows
+    public ResponseEntity assignPatientAssistRequest(@PathVariable UUID requestId,
+                                                     @RequestParam String volunteerId) {
+        try {
+            log.info("Received Assign request for request {} for volunteer {} ::", requestId, volunteerId);
+            service.assignRequestToVolunteer(requestId, volunteerId);
+            log.info("Assigned Request with id {} to volunteer id {}", volunteerId);
+            return ResponseEntity
+                    .status(OK)
+                    .build();
+        } finally {
+            MDC.clear();
+        }
+    }
+
+    @PutMapping("/unAssign/{requestId}")
+    @SneakyThrows
+    public ResponseEntity unAssignPatientAssistRequest(@PathVariable UUID requestId,
+                                                       @RequestParam String volunteerId) {
+        try {
+            log.info("Received unAssign request for request {} for volunteer {} ::", requestId, volunteerId);
+            service.unAssignRequestFromVolunteer(requestId, volunteerId);
+            log.info("UnAssigned volunteer id {} from request with id {}", volunteerId, requestId);
+            return ResponseEntity
+                    .status(OK)
+                    .build();
         } finally {
             MDC.clear();
         }

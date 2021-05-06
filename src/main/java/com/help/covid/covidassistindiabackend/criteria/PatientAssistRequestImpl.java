@@ -34,6 +34,7 @@ public class PatientAssistRequestImpl implements PatientAssistRequestRepositoryC
         ZonedDateTime from = searchTerms.getDateRange().getFrom();
         List<String> statusList = searchTerms.getStatuses();
         List<String> servicesList = searchTerms.getServiceTypes();
+        String volunteerId = searchTerms.getVolunteerId();
 
         Pageable pageable = PageRequest.of(searchTerms.getPageNumber() - 1, searchTerms.getLimit());
 
@@ -54,6 +55,11 @@ public class PatientAssistRequestImpl implements PatientAssistRequestRepositoryC
         if (isNotEmpty(statusList)) {
             predicateList.add(requestsRootQuery.get("currentStatus").in(statusList));
         }
+
+        if (volunteerId != null) {
+            predicateList.add(builder.equal(requestsRootQuery.get("volunteerId"), volunteerId));
+        }
+
         Predicate finalPredicate = builder.and(predicateList.toArray(new Predicate[predicateList.size()]));
         query.where(finalPredicate);
         query.orderBy(builder.desc(requestsRootQuery.get("createdAt")));

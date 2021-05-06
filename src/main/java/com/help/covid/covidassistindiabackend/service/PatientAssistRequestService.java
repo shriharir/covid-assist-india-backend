@@ -5,10 +5,13 @@ import java.util.UUID;
 
 import com.help.covid.covidassistindiabackend.criteria.PatientAssistRequestRepositoryCustom;
 import com.help.covid.covidassistindiabackend.entity.PatientAssistRequestEntity;
+import com.help.covid.covidassistindiabackend.entity.VolunteerEntity;
+import com.help.covid.covidassistindiabackend.exception.BadRequest;
 import com.help.covid.covidassistindiabackend.exception.ResourceNotFoundException;
 import com.help.covid.covidassistindiabackend.model.PatientAssistRequest;
 import com.help.covid.covidassistindiabackend.model.SearchTerms;
 import com.help.covid.covidassistindiabackend.repository.PatientAssistRequestRepository;
+import com.help.covid.covidassistindiabackend.repository.VolunteerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +30,9 @@ public class PatientAssistRequestService {
 
     @Autowired
     private PatientAssistRequestRepositoryCustom repositoryCustom;
+
+    @Autowired
+    private VolunteerRepository volunteerRepository;
 
     public PatientAssistRequestEntity create(PatientAssistRequest request) {
         UUID requestId = request.getRequestId();
@@ -51,6 +57,36 @@ public class PatientAssistRequestService {
 
     public Page<PatientAssistRequestEntity> findAllRequests(SearchTerms searchTerms) {
         return repositoryCustom.searchByRequestFilters(searchTerms);
+    }
+
+    public void assignRequestToVolunteer(UUID requestId, String volunteerId) {
+        Optional<PatientAssistRequestEntity> optionalRequest = repository.findByRequestId(requestId);
+        optionalRequest.ifPresentOrElse(requestEntity -> {
+            Optional<VolunteerEntity> volunteerEntity = volunteerRepository.findByVolunteerId(volunteerId);
+            volunteerEntity.ifPresentOrElse(entity -> {
+                requestEntity.setVolunteerId(volunteerId);
+                repository.save(requestEntity);
+            }, () -> {
+                throw ResourceNotFoundException.volunteerNotFund();
+            });
+
+        }, () -> {
+            throw ResourceNotFoundException.requestNotFund();
+        });
+    }
+
+    public void unAssignRequestFromVolunteer(UUID requestId, String volunteerId) {
+        Optional<PatientAssistRequestEntity> optionalRequest = repository.findByRequestId(requestId);
+        optionalRequest.ifPresentOrElse(requestEntity -> {
+            if (requestEntity.getVolunteerId().equalsIgnoreCase(volunteerId)) {
+                requestEntity.setVolunteerId("");
+                repository.save(requestEntity);
+            } else {
+                throw BadRequest.volunteerNotAssignedToRequest();
+            }
+        }, () -> {
+            throw ResourceNotFoundException.requestNotFund();
+        });
     }
 
 }

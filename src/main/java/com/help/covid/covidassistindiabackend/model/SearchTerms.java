@@ -13,4 +13,5 @@ public class SearchTerms {
     private DateRange dateRange;
     private List<String> statuses;
     private List<String> serviceTypes;
+    private String volunteerId;
 }

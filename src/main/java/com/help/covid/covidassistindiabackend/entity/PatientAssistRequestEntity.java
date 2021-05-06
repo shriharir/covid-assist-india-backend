@@ -1,5 +1,6 @@
 package com.help.covid.covidassistindiabackend.entity;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.help.covid.covidassistindiabackend.generic.GenericEntity;
 import com.help.covid.covidassistindiabackend.generic.JsonType;
+import com.help.covid.covidassistindiabackend.generic.StringArrayType;
 import com.help.covid.covidassistindiabackend.mapper.PatientAssistRequestMapper;
 import com.help.covid.covidassistindiabackend.model.Address;
 import com.help.covid.covidassistindiabackend.model.CareTakerDetails;
@@ -23,6 +25,7 @@ import com.help.covid.covidassistindiabackend.model.HospitalDetails;
 import com.help.covid.covidassistindiabackend.model.PatientAssistRequest;
 import com.help.covid.covidassistindiabackend.model.PatientDetails;
 import com.help.covid.covidassistindiabackend.model.RequestStatus;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,10 +51,12 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 @AllArgsConstructor
 @NoArgsConstructor
 @TypeDefs({
-        @TypeDef(name = "JsonType", typeClass = JsonType.class)
+        @TypeDef(name = "JsonType", typeClass = JsonType.class),
+        @TypeDef(name = "StringArray", typeClass = StringArrayType.class),
+        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
 })
 @Slf4j
-public class PatientAssistRequestEntity implements GenericEntity<PatientAssistRequest> {
+public class PatientAssistRequestEntity implements GenericEntity<PatientAssistRequest>, Serializable {
 
     @Id
     @Column(name = "id")
@@ -75,14 +80,18 @@ public class PatientAssistRequestEntity implements GenericEntity<PatientAssistRe
     public HospitalDetails hospitalDetails;
     public String serviceRequested;
 
-    @Type(type = JSON_TYPE)
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     public List<String> description;
 
-    @Type(type = JSON_TYPE)
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
     public List<RequestStatus> requestStatus;
 
     @JsonIgnore
     public String currentStatus;
+
+    public String volunteerId;
 
     public ZonedDateTime createdAt;
     public ZonedDateTime lastModifiedAt;

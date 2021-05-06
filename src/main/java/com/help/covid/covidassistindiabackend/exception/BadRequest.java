@@ -5,8 +5,7 @@ public class BadRequest extends RuntimeException {
 
     private static final String BAD_GENERIC_REQUEST = "Data is empty";
     private static final String BAD_DATA_TYPE_REQUESTED = "Data contains invalid key";
-    public static final String INVALID_CHANNEL = "Invalid value for channel";
-    public static final String MISSING_AUTHORIZATION = "Missing mandatory header attribute authorization";
+    private static final String VOLUNTEER_NOT_ASSIGNED_TO_REQUEST = "Volunteer not assigned to the request.";
 
     private BadRequest(String message) {
         super(message);
@@ -17,15 +16,12 @@ public class BadRequest extends RuntimeException {
     }
 
     public static BadRequest badRequestForInvalidDataType() {
-        return new BadRequest(BAD_DATA_TYPE_REQUESTED);
+        return new BadRequest(VOLUNTEER_NOT_ASSIGNED_TO_REQUEST);
     }
 
-    public static BadRequest invalidChannel() {
-        return new BadRequest(INVALID_CHANNEL);
+    public static BadRequest volunteerNotAssignedToRequest() {
+        return new BadRequest(VOLUNTEER_NOT_ASSIGNED_TO_REQUEST);
     }
 
-    public static BadRequest missingAuthorization() {
-        return new BadRequest(MISSING_AUTHORIZATION);
-    }
 
 }
