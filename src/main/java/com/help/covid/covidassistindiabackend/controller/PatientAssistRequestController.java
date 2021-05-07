@@ -105,7 +105,7 @@ public class PatientAssistRequestController {
         try {
             log.info("Received Assign request for request {} for volunteer {} ::", requestId, volunteerId);
             service.assignRequestToVolunteer(requestId, volunteerId);
-            log.info("Assigned Request with id {} to volunteer id {}", volunteerId);
+            log.info("Assigned Request with id {} to volunteer id {}", requestId, volunteerId);
             return ResponseEntity
                     .status(OK)
                     .build();

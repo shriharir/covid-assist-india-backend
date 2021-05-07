@@ -1,5 +1,6 @@
 package com.help.covid.covidassistindiabackend.service;
 
+import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -9,6 +10,7 @@ import com.help.covid.covidassistindiabackend.entity.VolunteerEntity;
 import com.help.covid.covidassistindiabackend.exception.BadRequest;
 import com.help.covid.covidassistindiabackend.exception.ResourceNotFoundException;
 import com.help.covid.covidassistindiabackend.model.PatientAssistRequest;
+import com.help.covid.covidassistindiabackend.model.RequestStatus;
 import com.help.covid.covidassistindiabackend.model.SearchTerms;
 import com.help.covid.covidassistindiabackend.repository.PatientAssistRequestRepository;
 import com.help.covid.covidassistindiabackend.repository.VolunteerRepository;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import static java.time.ZoneOffset.UTC;
 import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Service
@@ -65,6 +68,14 @@ public class PatientAssistRequestService {
             Optional<VolunteerEntity> volunteerEntity = volunteerRepository.findByVolunteerId(volunteerId);
             volunteerEntity.ifPresentOrElse(entity -> {
                 requestEntity.setVolunteerId(volunteerId);
+                requestEntity.requestStatus.add(RequestStatus
+                        .builder()
+                        .status("ASSIGNED")
+                        .eventTime(ZonedDateTime.now(UTC))
+                        .volunteerId(volunteerId)
+                        .updatedBy(volunteerId)
+                        .comments("Request Assigned to volunteer ::" + volunteerId)
+                        .build());
                 repository.save(requestEntity);
             }, () -> {
                 throw ResourceNotFoundException.volunteerNotFund();
@@ -80,6 +91,14 @@ public class PatientAssistRequestService {
         optionalRequest.ifPresentOrElse(requestEntity -> {
             if (requestEntity.getVolunteerId().equalsIgnoreCase(volunteerId)) {
                 requestEntity.setVolunteerId("");
+                requestEntity.requestStatus.add(RequestStatus
+                        .builder()
+                        .status("UNASSIGNED")
+                        .eventTime(ZonedDateTime.now(UTC))
+                        .volunteerId(volunteerId)
+                        .updatedBy(volunteerId)
+                        .comments("Request UN Assigned from volunteer ::" + volunteerId)
+                        .build());
                 repository.save(requestEntity);
             } else {
                 throw BadRequest.volunteerNotAssignedToRequest();
