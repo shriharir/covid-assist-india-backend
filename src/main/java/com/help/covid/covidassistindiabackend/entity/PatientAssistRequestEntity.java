@@ -14,7 +14,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.help.covid.covidassistindiabackend.generic.GenericEntity;
 import com.help.covid.covidassistindiabackend.generic.JsonType;
 import com.help.covid.covidassistindiabackend.generic.StringArrayType;
@@ -116,7 +115,7 @@ public class PatientAssistRequestEntity implements GenericEntity<PatientAssistRe
         if (isEmpty(requestStatus)) {
             requestStatus.add(RequestStatus
                     .builder()
-                    .status("Open")
+                    .status("OPEN")
                     .eventTime(ZonedDateTime.now(UTC))
                     .comments("Initial Status Created")
                     .build());
