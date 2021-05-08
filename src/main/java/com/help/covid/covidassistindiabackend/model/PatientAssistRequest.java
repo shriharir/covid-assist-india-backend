@@ -31,6 +31,7 @@ public class PatientAssistRequest implements GenericDomain<PatientAssistRequestE
     public String serviceRequested;
     public List<String> description;
     public List<RequestStatus> requestStatus;
+    public List<VolunteerComment> comments;
     public ZonedDateTime createdAt;
     public ZonedDateTime lastModifiedAt;
 

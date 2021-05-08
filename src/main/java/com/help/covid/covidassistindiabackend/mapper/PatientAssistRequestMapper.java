@@ -1,17 +1,33 @@
 package com.help.covid.covidassistindiabackend.mapper;
 
+import java.util.List;
+
 import com.help.covid.covidassistindiabackend.entity.PatientAssistRequestEntity;
 import com.help.covid.covidassistindiabackend.model.PatientAssistRequest;
+import com.help.covid.covidassistindiabackend.model.VolunteerComment;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.Named;
 import org.mapstruct.ReportingPolicy;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface PatientAssistRequestMapper {
     PatientAssistRequestMapper INSTANCE = Mappers.getMapper(PatientAssistRequestMapper.class);
+    String COMMENTS = "comments";
+    String MAP_COMMENTS = "mapComments";
 
+    @Mappings({
+            @Mapping(source = COMMENTS, target = COMMENTS, qualifiedByName = MAP_COMMENTS)
+    })
     PatientAssistRequestEntity toEntity(PatientAssistRequest order);
 
     PatientAssistRequest toDomain(PatientAssistRequestEntity order);
+
+    @Named(MAP_COMMENTS)
+    static List<VolunteerComment> mapTotals(List<VolunteerComment> comments) {
+        return comments;
+    }
 
 }

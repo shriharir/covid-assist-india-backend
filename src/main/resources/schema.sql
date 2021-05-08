@@ -14,6 +14,7 @@ create TABLE IF NOT EXISTS patient_assist_requests
     service_requested varchar(255),
     description jsonb,
     request_status jsonb,
+    comments jsonb,
     current_status varchar(255),
     volunteer_id varchar(255),
     created_at timestamp,

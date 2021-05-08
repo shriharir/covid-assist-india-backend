@@ -51,6 +51,13 @@
       "comments": "string"
     }
   ],
+    "comments": [
+        {
+            "comment": "Thisis comment",
+            "volunteerId": "volunteer1",
+            "eventTime": "2019-10-25T17:22:50.249Z"
+        }
+    ],
   "createdAt": "2019-10-25T17:22:50.249Z",
   "lastModifiedAt": "2019-10-25T17:22:50.249Z"
 }

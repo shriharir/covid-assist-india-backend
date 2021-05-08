@@ -23,6 +23,7 @@ import com.help.covid.covidassistindiabackend.model.CareTakerDetails;
 import com.help.covid.covidassistindiabackend.model.HospitalDetails;
 import com.help.covid.covidassistindiabackend.model.PatientAssistRequest;
 import com.help.covid.covidassistindiabackend.model.PatientDetails;
+import com.help.covid.covidassistindiabackend.model.VolunteerComment;
 import com.help.covid.covidassistindiabackend.model.RequestStatus;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
@@ -86,6 +87,10 @@ public class PatientAssistRequestEntity implements GenericEntity<PatientAssistRe
     @Type(type = "jsonb")
     @Column(columnDefinition = "jsonb")
     public List<RequestStatus> requestStatus;
+
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb")
+    public List<VolunteerComment> comments;
 
     public String currentStatus;
 
