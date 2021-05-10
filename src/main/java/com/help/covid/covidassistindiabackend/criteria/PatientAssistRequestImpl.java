@@ -36,7 +36,7 @@ public class PatientAssistRequestImpl implements PatientAssistRequestRepositoryC
         List<String> servicesList = searchTerms.getServiceTypes();
         String volunteerId = searchTerms.getVolunteerId();
 
-        Pageable pageable = PageRequest.of(searchTerms.getPageNumber() - 1, searchTerms.getLimit());
+        Pageable pageable = PageRequest.of(searchTerms.getPageNumber(), searchTerms.getLimit());
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<PatientAssistRequestEntity> query = builder.createQuery(PatientAssistRequestEntity.class);
