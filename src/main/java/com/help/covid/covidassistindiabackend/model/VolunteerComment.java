@@ -3,6 +3,8 @@ package com.help.covid.covidassistindiabackend.model;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
+import javax.validation.constraints.NotEmpty;
+
 import com.help.covid.covidassistindiabackend.generic.JsonType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +18,9 @@ import org.hibernate.annotations.TypeDef;
 @NoArgsConstructor
 @TypeDef(name = "JsonType", typeClass = JsonType.class)
 public class VolunteerComment implements Serializable {
+    @NotEmpty
     public String comment;
+    @NotEmpty
     public String volunteerId;
     public ZonedDateTime eventTime;
 }

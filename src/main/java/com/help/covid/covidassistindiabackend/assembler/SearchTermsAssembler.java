@@ -19,7 +19,7 @@ public class SearchTermsAssembler {
 
     private final DateUtil dateUtil;
 
-    public SearchTerms assemble(Integer pageNumber, Integer limit, String from, String to, List<String> status, List<String> serviceTypes, String volunteerId) {
+    public SearchTerms assemble(Integer pageNumber, Integer limit, String from, String to, List<String> status, List<String> serviceTypes, String volunteerId, String state, String district) {
         LocalDate toDate = dateUtil.parseOrDefaultNow(to);
         LocalDate fromDate = dateUtil.parseOrDefault180DaysLess(from, toDate);
 
@@ -36,6 +36,8 @@ public class SearchTermsAssembler {
                 .statuses(status)
                 .serviceTypes(serviceTypes)
                 .volunteerId(volunteerId)
+                .state(state)
+                .district(district)
                 .build();
     }
 }

@@ -14,4 +14,6 @@ public class SearchTerms {
     private List<String> statuses;
     private List<String> serviceTypes;
     private String volunteerId;
+    private String state;
+    private String district;
 }

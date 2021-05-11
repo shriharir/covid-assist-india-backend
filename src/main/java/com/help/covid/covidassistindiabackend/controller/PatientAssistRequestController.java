@@ -11,6 +11,7 @@ import com.help.covid.covidassistindiabackend.entity.PatientAssistRequestEntity;
 import com.help.covid.covidassistindiabackend.generic.GenericResponse;
 import com.help.covid.covidassistindiabackend.model.PatientAssistRequest;
 import com.help.covid.covidassistindiabackend.model.SearchTerms;
+import com.help.covid.covidassistindiabackend.model.VolunteerComment;
 import com.help.covid.covidassistindiabackend.service.PatientAssistRequestService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -83,11 +84,13 @@ public class PatientAssistRequestController {
             @RequestParam(required = false) String toDate,
             @RequestParam(required = false, defaultValue = "") List<String> status,
             @RequestParam(required = false, defaultValue = "") List<String> serviceTypes,
-            @RequestParam(required = false) String volunteerId
+            @RequestParam(required = false) String volunteerId,
+            @RequestParam(required = false) String state,
+            @RequestParam(required = false) String district
     ) {
         try {
             log.info("Received request to get all requests");
-            SearchTerms searchTerms = searchTermsAssembler.assemble(page, limit, fromDate, toDate, status, serviceTypes, volunteerId);
+            SearchTerms searchTerms = searchTermsAssembler.assemble(page, limit, fromDate, toDate, status, serviceTypes, volunteerId, state, district);
             Page<PatientAssistRequestEntity> entity = service.findAllRequests(searchTerms);
             log.info("Retrieved patient assist request with value {} ::", objectMapper.writeValueAsString(entity));
             return ResponseEntity
@@ -122,6 +125,22 @@ public class PatientAssistRequestController {
             log.info("Received unAssign request for request {} for volunteer {} ::", requestId, volunteerId);
             service.unAssignRequestFromVolunteer(requestId, volunteerId);
             log.info("UnAssigned volunteer id {} from request with id {}", volunteerId, requestId);
+            return ResponseEntity
+                    .status(OK)
+                    .build();
+        } finally {
+            MDC.clear();
+        }
+    }
+
+    @PutMapping("/addComments/{requestId}")
+    @SneakyThrows
+    public ResponseEntity addCommentToPatientRequest(@PathVariable UUID requestId,
+                                                     @RequestBody @Valid VolunteerComment comment) {
+        try {
+            log.info("Received Add Comment request for request {} for volunteer {} ::", requestId, comment.getVolunteerId());
+            service.addCommentToRequest(requestId, comment);
+            log.info("Added comment to Request with id {}", requestId);
             return ResponseEntity
                     .status(OK)
                     .build();

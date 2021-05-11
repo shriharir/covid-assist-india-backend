@@ -19,7 +19,8 @@ public interface PatientAssistRequestMapper {
     String MAP_COMMENTS = "mapComments";
 
     @Mappings({
-            @Mapping(source = COMMENTS, target = COMMENTS, qualifiedByName = MAP_COMMENTS)
+            @Mapping(source = COMMENTS, target = COMMENTS, qualifiedByName = MAP_COMMENTS),
+            @Mapping(target = "volunteerId", source = "volunteerId"),
     })
     PatientAssistRequestEntity toEntity(PatientAssistRequest order);
 

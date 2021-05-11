@@ -12,6 +12,7 @@ import com.help.covid.covidassistindiabackend.exception.ResourceNotFoundExceptio
 import com.help.covid.covidassistindiabackend.model.PatientAssistRequest;
 import com.help.covid.covidassistindiabackend.model.RequestStatus;
 import com.help.covid.covidassistindiabackend.model.SearchTerms;
+import com.help.covid.covidassistindiabackend.model.VolunteerComment;
 import com.help.covid.covidassistindiabackend.repository.PatientAssistRequestRepository;
 import com.help.covid.covidassistindiabackend.repository.VolunteerRepository;
 import lombok.RequiredArgsConstructor;
@@ -106,6 +107,20 @@ public class PatientAssistRequestService {
         }, () -> {
             throw ResourceNotFoundException.requestNotFund();
         });
+    }
+
+    public void addCommentToRequest(UUID requestId, VolunteerComment comment) {
+        Optional<PatientAssistRequestEntity> optionalRequest = repository.findByRequestId(requestId);
+        optionalRequest.ifPresentOrElse(requestEntity -> {
+            if (comment.getEventTime() == null) {
+                comment.eventTime = ZonedDateTime.now();
+            }
+            requestEntity.getComments().add(comment);
+            repository.save(requestEntity);
+        }, () -> {
+            throw ResourceNotFoundException.requestNotFund();
+        });
+
     }
 
 }

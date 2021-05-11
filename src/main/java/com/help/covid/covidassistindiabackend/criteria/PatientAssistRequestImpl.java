@@ -35,6 +35,8 @@ public class PatientAssistRequestImpl implements PatientAssistRequestRepositoryC
         List<String> statusList = searchTerms.getStatuses();
         List<String> servicesList = searchTerms.getServiceTypes();
         String volunteerId = searchTerms.getVolunteerId();
+        String state = searchTerms.getState();
+        String district = searchTerms.getDistrict();
 
         Pageable pageable = PageRequest.of(searchTerms.getPageNumber(), searchTerms.getLimit());
 
@@ -58,6 +60,26 @@ public class PatientAssistRequestImpl implements PatientAssistRequestRepositoryC
 
         if (volunteerId != null) {
             predicateList.add(builder.equal(requestsRootQuery.get("volunteerId"), volunteerId));
+        }
+
+        if (state != null && state.length() > 0) {
+            predicateList.add(builder
+                    .function("jsonb_extract_path_text",
+                            String.class,
+                            requestsRootQuery.get("address"),
+                            builder.literal("state"))
+                    .in(state)
+            );
+        }
+
+        if (district != null && district.length() > 0) {
+            predicateList.add(builder
+                    .function("jsonb_extract_path_text",
+                            String.class,
+                            requestsRootQuery.get("address"),
+                            builder.literal("district"))
+                    .in(district)
+            );
         }
 
         Predicate finalPredicate = builder.and(predicateList.toArray(new Predicate[predicateList.size()]));
