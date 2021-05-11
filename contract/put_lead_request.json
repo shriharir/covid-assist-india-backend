@@ -1,0 +1,31 @@
+{
+  "leadType": "Medicine",
+  "leadDescription": "remdeviser available from authorized seller",
+  "verifiedStatus": "PENDING",
+  "isVerified": true,
+  "lastVerifiedBy": "volunteer1",
+  "lastVerifiedAt": "2019-10-25T17:22:50.249Z",
+  "comments": [
+    {
+      "comments": "string",
+      "volunteerId": "string",
+      "eventTime": "2019-10-25T17:22:50.249Z"
+    }
+  ],
+  "imageUrl": "http://s3-remdeviser-medicine.jpeg",
+  "businessName": "Medical Store",
+  "businessAddress": {
+    "addressLine1": "string",
+    "addressLine2": "string",
+    "landMark": "string",
+    "city": "string",
+    "state": "string",
+    "district": "strict",
+    "pin": "string"
+  },
+  "contactPerson": "Person Name",
+  "primaryMobile": "9345566777",
+  "secondaryMobile": "9445566777",
+  "stockAvailable": false,
+  "informationSource": "whatsapp forward"
+}

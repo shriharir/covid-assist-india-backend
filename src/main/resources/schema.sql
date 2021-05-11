@@ -35,3 +35,24 @@ create TABLE IF NOT EXISTS volunteer_details
     created_at timestamp,
     last_modified_at timestamp
 );
+
+create TABLE IF NOT EXISTS lead_requests
+(
+id UUID PRIMARY KEY DEFAULT uuid_generate_v1(),
+    lead_type varchar(255),
+    lead_description varchar(255),
+    verified_status varchar(255),
+    is_verified boolean,
+    last_verified_by varchar(255),
+    last_verified_at timestamp,
+    created_at timestamp,
+    comments jsonb,
+    image_url varchar(255),
+    business_name varchar(255),
+    business_address jsonb,
+    contact_person varchar(255),
+    primary_mobile varchar(255),
+    secondary_mobile varchar(255),
+    stock_available boolean,
+    information_source varchar(255)
+);
