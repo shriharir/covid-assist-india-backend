@@ -115,7 +115,7 @@ public class PatientAssistRequestService {
             if (comment.getEventTime() == null) {
                 comment.eventTime = ZonedDateTime.now();
             }
-            requestEntity.getComments().add(comment);
+            requestEntity.addComments(comment);
             repository.save(requestEntity);
         }, () -> {
             throw ResourceNotFoundException.requestNotFund();

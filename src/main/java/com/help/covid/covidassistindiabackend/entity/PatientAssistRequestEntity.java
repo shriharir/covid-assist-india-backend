@@ -23,8 +23,8 @@ import com.help.covid.covidassistindiabackend.model.CareTakerDetails;
 import com.help.covid.covidassistindiabackend.model.HospitalDetails;
 import com.help.covid.covidassistindiabackend.model.PatientAssistRequest;
 import com.help.covid.covidassistindiabackend.model.PatientDetails;
-import com.help.covid.covidassistindiabackend.model.VolunteerComment;
 import com.help.covid.covidassistindiabackend.model.RequestStatus;
+import com.help.covid.covidassistindiabackend.model.VolunteerComment;
 import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -143,6 +143,13 @@ public class PatientAssistRequestEntity implements GenericEntity<PatientAssistRe
         return isEmpty(requestStatus) ? Optional.empty() : requestStatus.stream()
                 .sorted(comparing(RequestStatus::getEventTime).reversed())
                 .findFirst();
+    }
+
+    public void addComments(VolunteerComment comment) {
+        if (comments == null) {
+            comments = new ArrayList<>();
+        }
+        comments.add(comment);
     }
 
 }
