@@ -2,7 +2,7 @@
   "leadType": "Medicine",
   "leadDescription": "remdeviser available from authorized seller",
   "verifiedStatus": "PENDING",
-  "isVerified": true,
+  "isVerified": false,
   "lastVerifiedBy": "volunteer1",
   "lastVerifiedAt": "2019-10-25T17:22:50.249Z",
   "comments": [
