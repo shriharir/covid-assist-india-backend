@@ -10,6 +10,7 @@ import com.help.covid.covidassistindiabackend.assembler.SearchTermsAssembler;
 import com.help.covid.covidassistindiabackend.entity.PatientAssistRequestEntity;
 import com.help.covid.covidassistindiabackend.generic.GenericResponse;
 import com.help.covid.covidassistindiabackend.model.PatientAssistRequest;
+import com.help.covid.covidassistindiabackend.model.RequestStatus;
 import com.help.covid.covidassistindiabackend.model.SearchTerms;
 import com.help.covid.covidassistindiabackend.model.VolunteerComment;
 import com.help.covid.covidassistindiabackend.service.PatientAssistRequestService;
@@ -141,6 +142,22 @@ public class PatientAssistRequestController {
             log.info("Received Add Comment request for request {} for volunteer {} ::", requestId, comment.getVolunteerId());
             service.addCommentToRequest(requestId, comment);
             log.info("Added comment to Request with id {}", requestId);
+            return ResponseEntity
+                    .status(OK)
+                    .build();
+        } finally {
+            MDC.clear();
+        }
+    }
+
+    @PutMapping("/changeStatus/{requestId}")
+    @SneakyThrows
+    public ResponseEntity changeRequestStatus(@PathVariable UUID requestId,
+                                              @RequestBody @Valid RequestStatus status) {
+        try {
+            log.info("Received status change request for request {}", requestId);
+            service.changeRequestStatus(requestId, status);
+            log.info("Added status to Request with id {}", requestId);
             return ResponseEntity
                     .status(OK)
                     .build();

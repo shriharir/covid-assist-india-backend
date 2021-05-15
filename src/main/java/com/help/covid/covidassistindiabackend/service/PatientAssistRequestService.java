@@ -123,4 +123,18 @@ public class PatientAssistRequestService {
 
     }
 
+    public void changeRequestStatus(UUID requestId, RequestStatus status) {
+        Optional<PatientAssistRequestEntity> optionalRequest = repository.findByRequestId(requestId);
+        optionalRequest.ifPresentOrElse(requestEntity -> {
+            if (status.getEventTime() == null) {
+                status.eventTime = ZonedDateTime.now();
+            }
+            requestEntity.addStatus(status);
+            repository.save(requestEntity);
+        }, () -> {
+            throw ResourceNotFoundException.requestNotFund();
+        });
+
+    }
+
 }

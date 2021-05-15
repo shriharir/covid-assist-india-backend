@@ -152,4 +152,11 @@ public class PatientAssistRequestEntity implements GenericEntity<PatientAssistRe
         comments.add(comment);
     }
 
+    public void addStatus(RequestStatus status) {
+        if (requestStatus == null) {
+            requestStatus = new ArrayList<>();
+        }
+        requestStatus.add(status);
+    }
+
 }
