@@ -129,6 +129,11 @@ public class PatientAssistRequestService {
             if (status.getEventTime() == null) {
                 status.eventTime = ZonedDateTime.now();
             }
+            if (status.getStatus().equalsIgnoreCase("ASSIGNED")) {
+                requestEntity.setVolunteerId(status.getVolunteerId());
+            } else if (status.getStatus().equalsIgnoreCase("UNASSIGNED")) {
+                requestEntity.setVolunteerId(null);
+            }
             requestEntity.addStatus(status);
             repository.save(requestEntity);
         }, () -> {
