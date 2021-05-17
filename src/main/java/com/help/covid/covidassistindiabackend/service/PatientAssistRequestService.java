@@ -44,7 +44,7 @@ public class PatientAssistRequestService {
         String primaryMobile = request.getCareTakerDetails().primaryMobile;
         String secondaryMobile = request.getCareTakerDetails().secondaryMobile;
 
-        Long duplicateCount = repositoryCustom.findDuplicateRequestCount(srfId, buNumber, primaryMobile, secondaryMobile);
+        Long duplicateCount = repositoryCustom.findDuplicateRequestCount(srfId, buNumber);
 
         if (duplicateCount == 0 || (duplicateCount == 1 && request.getRequestId() != null)) {
             UUID requestId = request.getRequestId();

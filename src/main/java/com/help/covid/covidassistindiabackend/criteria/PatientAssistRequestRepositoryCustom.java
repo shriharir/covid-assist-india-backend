@@ -7,5 +7,5 @@ import org.springframework.data.domain.Page;
 public interface PatientAssistRequestRepositoryCustom {
     Page<PatientAssistRequestEntity> searchByRequestFilters(SearchTerms searchTerms);
 
-    Long findDuplicateRequestCount(String srfId, String buNumber, String primaryCareTakerPhone, String secondaryCareTakerPhone);
+    Long findDuplicateRequestCount(String srfId, String buNumber);
 }

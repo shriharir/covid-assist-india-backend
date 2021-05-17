@@ -104,7 +104,7 @@ public class PatientAssistRequestImpl implements PatientAssistRequestRepositoryC
     }
 
     @Override
-    public Long findDuplicateRequestCount(String srfId, String buNumber, String primaryCareTakerPhone, String secondaryCareTakerPhone) {
+    public Long findDuplicateRequestCount(String srfId, String buNumber) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<PatientAssistRequestEntity> query = builder.createQuery(PatientAssistRequestEntity.class);
 
@@ -117,26 +117,6 @@ public class PatientAssistRequestImpl implements PatientAssistRequestRepositoryC
 
         if (buNumber != null) {
             predicateList.add(builder.equal(requestsRootQuery.get("buNumber"), buNumber));
-        }
-
-        if (primaryCareTakerPhone != null) {
-            predicateList.add(builder
-                    .function("jsonb_extract_path_text",
-                            String.class,
-                            requestsRootQuery.get("careTakerDetails"),
-                            builder.literal("primaryMobile"))
-                    .in(primaryCareTakerPhone)
-            );
-        }
-
-        if (secondaryCareTakerPhone != null) {
-            predicateList.add(builder
-                    .function("jsonb_extract_path_text",
-                            String.class,
-                            requestsRootQuery.get("careTakerDetails"),
-                            builder.literal("secondaryMobile"))
-                    .in(secondaryCareTakerPhone)
-            );
         }
 
         Predicate finalPredicate = builder.and(predicateList.toArray(new Predicate[predicateList.size()]));

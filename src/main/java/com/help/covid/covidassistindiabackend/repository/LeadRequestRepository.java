@@ -12,7 +12,7 @@ public interface LeadRequestRepository extends JpaRepository<LeadRequestEntity, 
 
     List<LeadRequestEntity> findAll();
 
-    long countByBusinessNameOrContactPersonOrPrimaryMobileOrSecondaryMobile(String businessName, String contactPerson, String primaryMobile, String secondaryMobile);
+    long countByBusinessNameOrContactPerson(String businessName, String contactPerson);
 
 }
 

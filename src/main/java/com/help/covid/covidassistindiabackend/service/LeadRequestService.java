@@ -31,10 +31,8 @@ public class LeadRequestService {
 
     public LeadRequestEntity create(LeadRequest request) {
         UUID requestId = request.getRequestId();
-        long duplicateCount = repository.countByBusinessNameOrContactPersonOrPrimaryMobileOrSecondaryMobile(request.getBusinessName(),
-                request.getContactPerson(),
-                request.getPrimaryMobile(),
-                request.getSecondaryMobile());
+        long duplicateCount = repository.countByBusinessNameOrContactPerson(request.getBusinessName(),
+                request.getContactPerson());
 
         if (duplicateCount == 0 || (duplicateCount == 1 && request.getRequestId() != null)) {
             if (isEmpty(requestId)) {
