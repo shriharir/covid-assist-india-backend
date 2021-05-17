@@ -102,4 +102,50 @@ public class PatientAssistRequestImpl implements PatientAssistRequestRepositoryC
         Page<PatientAssistRequestEntity> paginatedResult = new PageImpl<>(requests, pageable, count);
         return paginatedResult;
     }
+
+    @Override
+    public Long findDuplicateRequestCount(String srfId, String buNumber, String primaryCareTakerPhone, String secondaryCareTakerPhone) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<PatientAssistRequestEntity> query = builder.createQuery(PatientAssistRequestEntity.class);
+
+        Root<PatientAssistRequestEntity> requestsRootQuery = query.from(PatientAssistRequestEntity.class);
+        List<Predicate> predicateList = new ArrayList<>();
+
+        if (srfId != null) {
+            predicateList.add(builder.equal(requestsRootQuery.get("srfId"), srfId));
+        }
+
+        if (buNumber != null) {
+            predicateList.add(builder.equal(requestsRootQuery.get("buNumber"), buNumber));
+        }
+
+        if (primaryCareTakerPhone != null) {
+            predicateList.add(builder
+                    .function("jsonb_extract_path_text",
+                            String.class,
+                            requestsRootQuery.get("careTakerDetails"),
+                            builder.literal("primaryMobile"))
+                    .in(primaryCareTakerPhone)
+            );
+        }
+
+        if (secondaryCareTakerPhone != null) {
+            predicateList.add(builder
+                    .function("jsonb_extract_path_text",
+                            String.class,
+                            requestsRootQuery.get("careTakerDetails"),
+                            builder.literal("secondaryMobile"))
+                    .in(secondaryCareTakerPhone)
+            );
+        }
+
+        Predicate finalPredicate = builder.and(predicateList.toArray(new Predicate[predicateList.size()]));
+        query.where(finalPredicate);
+        query.select(requestsRootQuery);
+
+        List<PatientAssistRequestEntity> requests = entityManager.createQuery(query)
+                .getResultList();
+
+        return Long.valueOf(requests.size());
+    }
 }

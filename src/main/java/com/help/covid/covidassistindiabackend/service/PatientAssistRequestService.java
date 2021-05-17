@@ -39,18 +39,29 @@ public class PatientAssistRequestService {
     private VolunteerRepository volunteerRepository;
 
     public PatientAssistRequestEntity create(PatientAssistRequest request) {
-        UUID requestId = request.getRequestId();
-        if (isEmpty(requestId)) {
-            return repository.save(request.toEntity());
-        } else {
-            Optional<PatientAssistRequestEntity> optional = repository.findByRequestId(requestId);
-            if (optional.isPresent()) {
-                PatientAssistRequestEntity updatedEntity = request.toEntity();
-                updatedEntity.setRequestId(requestId);
-                return repository.save(updatedEntity);
-            } else {
+        String srfId = request.getSrfId();
+        String buNumber = request.getBuNumber();
+        String primaryMobile = request.getCareTakerDetails().primaryMobile;
+        String secondaryMobile = request.getCareTakerDetails().secondaryMobile;
+
+        Long duplicateCount = repositoryCustom.findDuplicateRequestCount(srfId, buNumber, primaryMobile, secondaryMobile);
+
+        if (duplicateCount == 0 || (duplicateCount == 1 && request.getRequestId() != null)) {
+            UUID requestId = request.getRequestId();
+            if (isEmpty(requestId)) {
                 return repository.save(request.toEntity());
+            } else {
+                Optional<PatientAssistRequestEntity> optional = repository.findByRequestId(requestId);
+                if (optional.isPresent()) {
+                    PatientAssistRequestEntity updatedEntity = request.toEntity();
+                    updatedEntity.setRequestId(requestId);
+                    return repository.save(updatedEntity);
+                } else {
+                    return repository.save(request.toEntity());
+                }
             }
+        } else {
+            throw BadRequest.requestAlreadyExists();
         }
     }
 
