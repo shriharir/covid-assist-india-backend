@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import com.help.covid.covidassistindiabackend.criteria.LeadRequestRepositoryCustom;
 import com.help.covid.covidassistindiabackend.entity.LeadRequestEntity;
+import com.help.covid.covidassistindiabackend.exception.BadRequest;
 import com.help.covid.covidassistindiabackend.exception.ResourceNotFoundException;
 import com.help.covid.covidassistindiabackend.model.LeadRequest;
 import com.help.covid.covidassistindiabackend.model.SearchTerms;
@@ -30,17 +31,26 @@ public class LeadRequestService {
 
     public LeadRequestEntity create(LeadRequest request) {
         UUID requestId = request.getRequestId();
-        if (isEmpty(requestId)) {
-            return repository.save(request.toEntity());
-        } else {
-            Optional<LeadRequestEntity> optional = repository.findByRequestId(requestId);
-            if (optional.isPresent()) {
-                LeadRequestEntity updatedEntity = request.toEntity();
-                updatedEntity.setRequestId(requestId);
-                return repository.save(updatedEntity);
-            } else {
+        long duplicateCount = repository.countByBusinessNameOrContactPersonOrPrimaryMobileOrSecondaryMobile(request.getBusinessName(),
+                request.getContactPerson(),
+                request.getPrimaryMobile(),
+                request.getSecondaryMobile());
+
+        if (duplicateCount == 0 || (duplicateCount == 1 && request.getRequestId() != null)) {
+            if (isEmpty(requestId)) {
                 return repository.save(request.toEntity());
+            } else {
+                Optional<LeadRequestEntity> optional = repository.findByRequestId(requestId);
+                if (optional.isPresent()) {
+                    LeadRequestEntity updatedEntity = request.toEntity();
+                    updatedEntity.setRequestId(requestId);
+                    return repository.save(updatedEntity);
+                } else {
+                    return repository.save(request.toEntity());
+                }
             }
+        } else {
+            throw BadRequest.leadRequestAlreadyExists();
         }
     }
 

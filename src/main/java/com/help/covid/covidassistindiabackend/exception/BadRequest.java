@@ -8,6 +8,7 @@ public class BadRequest extends RuntimeException {
     private static final String VOLUNTEER_NOT_ASSIGNED_TO_REQUEST = "Volunteer not assigned to the request.";
     private static final String REQUEST_ASSIGNED_TO_DIFFERENT_VOLUNTEER = "Request Assigned to different volunteer";
     private static final String REQUEST_ALREADY_EXISTS = "Request Already exists with given srfId or buNumber or Primary/Secondary phone number";
+    private static final String LEAD_REQUEST_ALREADY_EXISTS = "Lead Request Already exists with given business name or contact person or Primary/Secondary phone number";
 
     private BadRequest(String message) {
         super(message);
@@ -31,5 +32,9 @@ public class BadRequest extends RuntimeException {
 
     public static BadRequest requestAlreadyExists() {
         return new BadRequest(REQUEST_ALREADY_EXISTS);
+    }
+
+    public static BadRequest leadRequestAlreadyExists() {
+        return new BadRequest(LEAD_REQUEST_ALREADY_EXISTS);
     }
 }

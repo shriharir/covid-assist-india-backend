@@ -11,5 +11,8 @@ public interface LeadRequestRepository extends JpaRepository<LeadRequestEntity, 
     Optional<LeadRequestEntity> findByRequestId(UUID requestId);
 
     List<LeadRequestEntity> findAll();
+
+    long countByBusinessNameOrContactPersonOrPrimaryMobileOrSecondaryMobile(String businessName, String contactPerson, String primaryMobile, String secondaryMobile);
+
 }
 
