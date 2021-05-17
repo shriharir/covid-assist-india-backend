@@ -66,6 +66,11 @@ public class PatientAssistRequestService {
     public void assignRequestToVolunteer(UUID requestId, String volunteerId) {
         Optional<PatientAssistRequestEntity> optionalRequest = repository.findByRequestId(requestId);
         optionalRequest.ifPresentOrElse(requestEntity -> {
+
+            if (requestEntity.getVolunteerId() == null) {
+                throw BadRequest.requestAssignedToDifferentVolunteer();
+            }
+
             Optional<VolunteerEntity> volunteerEntity = volunteerRepository.findByVolunteerId(volunteerId);
             volunteerEntity.ifPresentOrElse(entity -> {
                 requestEntity.setVolunteerId(volunteerId);

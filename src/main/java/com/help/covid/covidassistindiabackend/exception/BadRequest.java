@@ -6,6 +6,7 @@ public class BadRequest extends RuntimeException {
     private static final String BAD_GENERIC_REQUEST = "Data is empty";
     private static final String BAD_DATA_TYPE_REQUESTED = "Data contains invalid key";
     private static final String VOLUNTEER_NOT_ASSIGNED_TO_REQUEST = "Volunteer not assigned to the request.";
+    private static final String REQUEST_ASSIGNED_TO_DIFFERENT_VOLUNTEER = "Request Assigned to different volunteer";
 
     private BadRequest(String message) {
         super(message);
@@ -23,5 +24,7 @@ public class BadRequest extends RuntimeException {
         return new BadRequest(VOLUNTEER_NOT_ASSIGNED_TO_REQUEST);
     }
 
-
+    public static BadRequest requestAssignedToDifferentVolunteer() {
+        return new BadRequest(REQUEST_ASSIGNED_TO_DIFFERENT_VOLUNTEER);
+    }
 }
