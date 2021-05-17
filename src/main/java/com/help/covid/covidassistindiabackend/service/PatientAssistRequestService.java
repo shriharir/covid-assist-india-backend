@@ -78,7 +78,7 @@ public class PatientAssistRequestService {
         Optional<PatientAssistRequestEntity> optionalRequest = repository.findByRequestId(requestId);
         optionalRequest.ifPresentOrElse(requestEntity -> {
 
-            if (requestEntity.getVolunteerId() == null) {
+            if (requestEntity.getVolunteerId() != null) {
                 throw BadRequest.requestAssignedToDifferentVolunteer();
             }
 
